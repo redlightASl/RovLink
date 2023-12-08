@@ -12,7 +12,13 @@
 * CAN总线
 * 百兆/千兆ETH以太网
 
-除此之外，RovLink还对设备的片上外设进行了规定，并允许基于硬件（FPGA或CPLD）的协议栈实现
+在当前标准下，RovLink可以使用如下片上总线传输：
+
+* AMBA4 AXI4-Full/Lite
+* AHB4-Full/Lite
+* APB4
+
+RovLink允许基于硬件（FPGA或CPLD）的协议栈实现
 
 ## 各种接口下的RovLink实现规范
 
