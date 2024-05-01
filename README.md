@@ -8,7 +8,7 @@
 
 本协议旨在为机器人的智能控制算法和执行控制部分提供统一的数据传输格式，实现除视觉部分电控系统的解耦
 
-本仓库包含RovLink协议的说明文档 `doc` 、示例代码 `example` 、基础指令分类 `isa` 、旧版协议存档 `lagency` 、示例软件 `tools` 等
+本仓库包含RovLink协议的说明文档 `doc` 、示例代码 `example` 、基础指令分类 `isa` 、旧版协议存档 `legacy` 、示例软件 `tools` 等
 
 协议规定了三个层次：
 
@@ -50,13 +50,13 @@ RovLink具有两种基本帧格式
 
 > 到目前为止，两种帧的差别只有帧头识别码和帧尾校验码
 
-RovLink还支持32位的**压缩指令帧**
+RovLink还支持32位的**压缩指令帧** `RovLinkComp`
 
-在MCU互联中，可根据帧特征码（特征指示-设备ID）进行舱间路由，协议最多可支持 `15` 个设备间的互联
+在互联中，可根据帧特征码（特征指示-设备ID）进行舱间路由，协议最多可支持 `15` 个设备间的互联
 
 ## 应用层
 
-用户可以使用协议生成器**Bubbler**提供的模板生成基于C/Python/C#的编解码API，功能包括：
+用户可以使用协议生成器**Bubbler**提供的模板生成多种语言的编解码API，功能包括：
 
 * 标准帧、内部帧打包
 * 标准帧、内部帧解包
@@ -76,4 +76,4 @@ RovLink还预留了三个指令子集C、D、E供用户定义自己的RovLink帧
 
 ## 历史版本
 
-本指令集基于旧版指令构建，旧版内容可参考 `Lagency` 目录下的  `ControlFormat_Lagency.xlsx` 和 `DataFormat_Lagency.xlsx`
+本指令集基于旧版指令构建，旧版内容可参考 `Legacy` 目录下的  `ControlFormat_Legacy.xlsx` 和 `DataFormat_Legacy.xlsx`

@@ -1,8 +1,10 @@
 # RovLink OTA标准
 
-RovLink提供了一个标准的串口OTA Bootloader，可以通过用户选定的`LinkCOM`与上位机连接实现OTA升级。
+RovLink提供了一个标准的串口OTA Bootloader，可以通过用户选定的 `LinkCOM` 与上位机连接实现OTA升级。
 
-由FinNAV支持的Bootloader程序被称为**Caviar 鱼子**，下面以Caviar为例讲解具体实现
+> [!NOTE]
+>
+> 由FinNAV支持的Bootloader程序被称为**Caviar 鱼子**，下面以Caviar为受控端实例讲解具体实现
 
 在多设备组成的RovLink连接中，在目标设备之前的所有RovLink中间设备都会接收来自上位机（源设备）的OTA升级数据，数据不会被加密，也不应当被拦截
 
