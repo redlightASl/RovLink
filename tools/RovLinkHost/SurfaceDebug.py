@@ -1,4 +1,4 @@
-from Joystick import *
+from peripheral.Joystick import *
 import threading
 import cv2
 import time
