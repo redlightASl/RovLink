@@ -1,6 +1,6 @@
 # RovLink协议定义文档
 
-`Defination.md` 是RovLink的协议规范定义文档
+`RovLink_Spec.md` 是RovLink的协议规范定义文档
 
 `RovLink_Core_def.md` 是RovLink核心指令集的定义文档
 
