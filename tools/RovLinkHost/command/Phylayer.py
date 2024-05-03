@@ -12,7 +12,7 @@ class Phylayer(object):
 
         if self._protocol == "Serial":
             self._dev = Rs485(
-                send_port=kwargs["send_port"], baudrate=kwargs["baudrate"], debug=kwargs["debug"])
+                read_port=kwargs["read_port"], send_port=kwargs["send_port"], baudrate=kwargs["baudrate"], debug=kwargs["debug"])
         elif self._protocol == "Ethernet":
             self._dev = Ethernet(ip=kwargs["ip"], port=kwargs["port"])
         else:

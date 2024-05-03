@@ -3,28 +3,18 @@ from binascii import hexlify
 
 
 OPCODE_PARSER = [
-    ["NOP", "TEMP_HUMI", "WATER_STA", "ACC", "GYR", "EUL", "MAG", "SONAR_HIGHT",
-        "SONAR_FRONT", "SONAR_CIRCLE", "SONAR_SIDE", "", "", "", "", ""],
-    ["WATER_DET", "HEART_BEAT", "", "", "", "",
-        "", "", "", "", "", "", "", "", "", ""],
-    ["", "THRUSTER_A", "THRUSTER_B", "THRUSTER_C", "THRUSTER_D", "LIGHT_A",
-        "LIGHT_B", "PAN", "SERVO_A", "SERVO_B", "SERVO_C", "ATTITUDE", "", "", "", ""],
+    ["NOP", "TEMP_HUMI", "WATER_STA", "ACC", "GYR", "EUL", "MAG", "SONAR_HIGHT", "SONAR_DIST", "SONAR_CIRCLE", "SONAR_SIDE", "QUATERNION", "WATERBODY", "", "", ""],
+    ["WATER_DET", "HEART_BEAT", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "THRUSTER_A", "THRUSTER_B", "THRUSTER_C", "THRUSTER_D", "LIGHT_A", "LIGHT_B", "PAN", "SERVO_A", "SERVO_B", "SERVO_C", "ATTITUDE", "MOVEMENT", "DIRECTION", "", ""],
     ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    ["", "PID_KP", "PID_KI", "PID_KD", "", "",
-        "", "", "", "", "", "", "", "", "", ""],
-    ["", "THRUSTER_STA", "LIGHT_STA", "PAN_STA", "SERVO_A_STA",
-        "SERVO_B_STA", "", "", "", "", "", "", "", "", "", ""],
-    ["", "PERIPHERAL_ENA", "MACHINE_ARM_A_ENA", "MACHINE_ARM_B_ENA",
-        "", "", "", "", "", "", "", "", "", "", "", ""],
-    ["", "MODE_SWITCH_A", "MODE_SWITCH_B", "", "",
-        "", "", "", "", "", "", "", "", "", "", ""],
-    ["", "MACHINE_ARM_1", "MACHINE_ARM_2", "MACHINE_ARM_3",
-        "MACHINE_ARM_4", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "PID_KP", "PID_KI", "PID_KD", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "ENVIRONMENT_STA", "SPEED_STA", "POSITION_STA", "MACHINEARM_A_STA", "MACHINEARM_B_STA", "", "", "", "", "", "", "", "", "", ""],
+    ["", "PERIPHERAL_ENA", "MODULER_ENA", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "MODE_SWITCH_A", "MODE_SWITCH_B", "MODE_SWITCH_C", "", "", "", "", "", "", "", "", "", "", "", ""],
+    ["", "MANIPULATOR", "MACHINE_ARM_1", "MACHINE_ARM_2", "MACHINE_ARM_3", "", "", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-    ["VOLTAGE", "CURRENT_GAIN", "CURRENT_BIAS", "CURRENT_OUTPUT",
-        "RESERVE_CAP", "", "", "", "", "", "", "", "", "", "", ""],
-    ["", "CURRENT_THRUSTER_A", "CURRENT_THRUSTER_B", "CURRENT_THRUSTER_C", "CURRENT_THRUSTER_D", "CURRENT_LIGHT_A",
-        "CURRENT_LIGHT_B", "CURRENT_PAN", "CURRENT_SERVO_A", "CURRENT_SERVO_B", "CURRENT_SERVO_C", "", "", "", "", ""],
+    ["VOLTAGE", "CURRENT_GAIN", "CURRENT_BIAS", "CURRENT_OUTPUT", "RESERVE_CAP", "BATTERY_A", "BATTERY_B", "", "", "", "", "", "", "", "", ""],
+    ["", "STAT_THRUSTER_A", "STAT_THRUSTER_B", "STAT_THRUSTER_C", "STAT_THRUSTER_D", "STAT_LIGHT_A", "STAT_LIGHT_B", "STAT_PAN", "STAT_SERVO_A", "STAT_SERVO_B", "STAT_SERVO_C", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
@@ -129,6 +119,10 @@ class RovLink(object):
             self._Payload[3] = payload_data[1] & 0x00FF
             self._Payload[4] = (payload_data[2] >> 8) & 0xFF
             self._Payload[5] = payload_data[2] & 0x00FF
+
+        self._Payload[0], self._Payload[1] = self._Payload[1], self._Payload[0]
+        self._Payload[2], self._Payload[3] = self._Payload[3], self._Payload[2]
+        self._Payload[4], self._Payload[5] = self._Payload[5], self._Payload[4]
 
         if self._debug:
             for i in range(0, 6):
