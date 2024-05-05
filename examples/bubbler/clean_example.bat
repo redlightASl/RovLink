@@ -1,1 +1,1 @@
-rd /S /q .\c
+rd /S /q .\gen

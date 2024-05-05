@@ -1,3 +1,5 @@
+package api.monitor;
+
 struct RovMonitorPropellerAData[6] {
     uint16 a1[2] [order = "big"];
     uint16 a2[2] [order = "big"];

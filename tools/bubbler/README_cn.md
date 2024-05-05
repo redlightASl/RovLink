@@ -18,7 +18,7 @@ cd bubbler
 go build
 ```
 
-## 使用
+## 使用方法
 
 ```sh
 bubbler [options] <input file>
@@ -27,22 +27,116 @@ bubbler [options] <input file>
 ### 选项
 
 - `-t <target>`: 目标语言
-- `-o <output>`: 输出文件
-
-### 目标语言
-
-运行 `bubbler` 以查看支持的目标语言列表。
+- `-o <output>`: 输出路径
+- `-inner`: 生成内部类（嵌套结构体）
+- `-single`: 生成单个文件（将所有定义合并到一个文件中，而不是每个源文件生成一个文件）
+- `-minimal`: 生成最小代码（通常不包含默认的getter/setter方法）
+- `-decnum`: 强制生成十进制格式的常量值（将 `0xFF` 翻译为 `255`, `0b1111` 翻译为 `15` 等）
+- `-signext`: 用于整数字段的符号扩展方法（选项: `shift`, `arith`）
 
 ### 示例
 
 ```sh
-bubbler -t c -o gen.c example.bb
-bubbler -t dump example.bb
+bubbler -t c -minimal -o output/ example.bb
+bubbler -t c -single -o gen.hpp example.bb
+bubbler -t py -decnum -signext=arith -o output example.bb
 ```
+
+### 目标语言
+
+运行 `bubbler` 命令查看支持的目标语言列表。
+
+```text
+Targets:
+  c
+  python [py]
+```
+
+当选择目标语言时，可以使用 `[]` 中的别名。例如，`python` 可以缩写为 `py`。
+
+- `dump`：输出 `.bb` 文件的解析树（中间表示）。
+
+- `c`：C 语言，为每个 `.bb` 文件输出一个 `.bb.h` 文件和一个 `.bb.c` 文件。
+  - 使用 `-single`：输出单个文件，其中包含所有`.bb`文件的所有定义。输出文件名（包括扩展名）由`-o`选项确定。
+  - 使用 `-minimal`：不为字段生成默认的getter/setter方法函数。
+
+- `python`：Python 语言，为每个 `.bb` 文件输出一个 `_bb.py` 文件。
+  - 使用`-single`：输出单个文件，其中包含所有 `.bb` 文件的所有定义。输出文件名（包括扩展名）由 `-o` 选项确定。
 
 ## 协议语法
 
-Bubbler 使用一种简洁的语法来定义数据结构和枚举类型。
+Bubbler 使用简洁的语法来定义数据结构和枚举类型。
+
+在 [example](example/) 目录中查看示例。
+
+### 包名声明
+
+使用 `package` 关键字来定义包名。例如：
+
+使用 `import` 关键字导入其他 Bubbler 协议文件。例如：
+
+```protobuf
+package com.example.rovlink;
+```
+
+包名用于生成输出文件名。例如，如果包名为 `com.example.rovlink`，则输出文件名为 `rovlink.xxx`，并放置在 `${Output Path}/com/example/` 目录中。
+
+在 `.bb` 文件中只允许有一个包名声明，并且包名不能在全局范围内重复。
+
+### 选项声明
+
+使用 `option` 关键字来定义选项。例如：
+
+```protobuf
+option omit_empty = true;
+option go_package = "example.com/rovlink";
+option cpp_namespace = "com::example::rovlink";
+```
+
+在 `.bb` 文件中，选项语句不能重复。
+
+如果选项未知，将会产生编译器警告。
+
+#### 支持的选项
+
+##### `omit_empty`
+
+如果将 `omit_empty` 设置为 `true`，不含有任何类型定义的 `.bb` 文件将不会生成任何文件。
+
+```protobuf
+package all;
+
+option omit_empty = true;
+
+import "rovlink.bb";
+import "control.bb";
+import "excomponent.bb";
+import "excontrol.bb";
+import "exdata.bb";
+import "host.bb";
+import "mode.bb";
+import "sensor.bb";
+```
+
+在这个例子中，`omit_empty` 选项被设置为 `true`，这个 `.bb` 文件将不会生成名为 `all.xxx` 文件。
+
+您可以使用这个选项一次生成多个 `.bb` 文件，而无需编写外部脚本，来运行多次 `bubbler` 命令以生成多个文件。
+
+##### `go_package`
+
+如果设置了 `go_package`，生成的代码将在生成的 Go 代码中使用指定的包名。
+
+##### `cpp_namespace`
+
+如果设置了 `cpp_namespace`，生成的代码将在生成的 C++ 代码中使用指定的命名空间。
+
+##### `csharp_namespace`
+
+如果设置了 `csharp_namespace`，生成的代码将在生成的 C# 代码中使用指定的命名空间。
+
+##### `java_package`
+
+如果设置了 `java_package`，生成的代码将在生成的 Java 代码中使用指定的包名。
 
 ### 导入语句
 
@@ -76,7 +170,7 @@ enum FrameType[1] {
 
 使用 `struct` 关键字定义数据结构。数据结构的定义包括结构名称和一系列的字段。例如：
 
-```bubbler
+```c
 struct Frame[20] {
     FrameType opcode;
     struct some_embed[1] {
@@ -91,6 +185,8 @@ struct Frame[20] {
 
 在这个例子中，`Frame` 是一个数据结构，它有三个字段：`opcode`、`some_embed` 和 `payload`。`opcode` 的类型是 `FrameType`，`some_embed` 是一个匿名内嵌的数据结构，`payload` 的类型是 `uint8`。
 
+请注意，Bubbler中并无作用域的概念（为了适应 C 语言），所以 `Frame` 和 `some_embed` 作为数据结构名称，在全局都不允许重名，哪怕 `some_embed` 是一个匿名内嵌的数据结构。
+
 ### 字段类型
 
 Bubbler 协议支持四种字段类型：普通字段、匿名内嵌字段、常量字段和空字段。
@@ -104,7 +200,7 @@ Bubbler 协议支持四种字段类型：普通字段、匿名内嵌字段、常
 
 普通字段由类型名、字段名和字段宽度构成。例如：
 
-```bubbler
+```c
 struct Frame {
     RovlinkFrameType opcode;
 };
@@ -130,7 +226,7 @@ struct Frame[20] {
 
 匿名内嵌字段是一个没有名字的数据结构，它可以包含多个子字段。例如：
 
-```bubbler
+```c
 struct Frame {
     int64 myInt48[6];
     struct some_embed[1] {
@@ -184,7 +280,7 @@ struct Frame {
 
 常量字段是一个固定值的字段，它的值在定义时就已经确定，不能被修改。例如：
 
-```bubbler
+```c
 struct Frame {
     uint8 FRAME_HEADER = 0xAA;
 };
@@ -198,7 +294,7 @@ struct Frame {
 
 空字段是一个没有名字和类型的字段，它只有宽度。空字段通常用于填充或对齐数据结构。例如：
 
-```bubbler
+```c
 struct Frame {
     void [#2];
 };
@@ -206,18 +302,19 @@ struct Frame {
 
 在这个例子中，`void [#2]` 是一个空字段，它占用了 2 比特的空间。
 
-
 ### 字段选项
 
 字段选项用于指定字段的额外属性。例如，可以使用 `order` 选项指定数组的字节顺序：
 
-```bubbler
+```c
 struct AnotherTest {
     int8<2> arr [order = "big"];
 }
 ```
 
 在这个例子中，`arr` 字段的字节顺序被设置为大端序。
+
+> 小贴士：大小端序的设置对于浮点类型同样有效，
 
 ### 自定义 getter/setter
 
@@ -226,20 +323,20 @@ struct AnotherTest {
 ```bubbler
 struct SensorTemperatureData {
     uint16 temperature[2] {
-        get(float64): value / 10 - 40;
-        set(float64): value == 0 ? 0 : (value + 40) * 10;
-        set AnotherCustomSet(uint8): value == 0 ? 0 : (value + 40) * 10;
+        get temperature_display(float64): value / 10 - 40;
+        set temperature_display(float64): value == 0 ? 0 : (value + 40) * 10;
+        set another_custom_setter(uint8): value == 0 ? 0 : (value + 40) * 10;
     };
 }
 ```
 
 在这个例子中，`temperature` 字段有一个自定义的 getter 方法和两个自定义的 setter 方法。
 
-默认getter返回`float64`类型，并根据`value / 10 - 40`计算结果返回。其中`value`被填充为字段的值，是uint16类型。
+自定义getter名为 `temperature_display`, 返回`float64` 类型，并根据 `value / 10 - 40` 计算结果返回。其中 `value` 被填充为字段的值，是uint16类型。
 
-默认setter接收`float64`类型的参数，并根据`value == 0 ? 0 : (value + 40) * 10`计算结果并以此设置字段的值。其中`value`被填充为参数的值，是float64类型。
+自定义setter名为 `temperature_display`, 接收`float64` 类型的参数，并根据 `value == 0 ? 0 : (value + 40) * 10` 计算结果并以此设置字段的值。其中 `value` 被填充为参数的值，是 `float64` 类型。
 
-自定义setter名为`AnotherCustomSet`，`uint8`是参数类型。并根据`value == 0 ? 0 : (value + 40) * 10`计算结果并以此设置字段的值。其中`value`被填充为参数的值，是uint8类型。
+自定义setter名为 `another_custom_setter`，`uint8`是参数类型。并根据 `value == 0 ? 0 : (value + 40) * 10` 计算结果并以此设置字段的值。其中 `value` 被填充为参数的值，是 `uint8` 类型。
 
 ## 贡献
 

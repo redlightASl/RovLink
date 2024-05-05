@@ -1,3 +1,5 @@
+package api.alg;
+
 struct RovAlgPidKpData[6] {
     float32 kp[4] [order = "big"];
     uint16 loop_id[2] [order = "big"];

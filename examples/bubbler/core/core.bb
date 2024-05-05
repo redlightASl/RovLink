@@ -1,3 +1,5 @@
+package api.core;
+
 struct RovExdataLeakageData[6] {
     uint64 leakage[6] [order = "big"];
 }

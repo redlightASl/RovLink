@@ -1,5 +1,7 @@
+package api.rovlink.exdata;
+
 struct RovExdataLeakageData[6] {
-    uint64 leakage[6];
+    bool<48> leakage[6];
 }
 
 enum RovExdataKeepAliveStatus[2] {

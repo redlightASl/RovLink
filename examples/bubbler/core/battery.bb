@@ -1,3 +1,5 @@
+package api.battery;
+
 struct RovBatteryVoltageData[6] {
     uint16 voltage[2] [order = "big"];
     uint16 power[2] [order = "big"];

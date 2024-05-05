@@ -1,3 +1,5 @@
+package rovlink_core;
+
 import "types.bb";
 import "sensor.bb";
 import "core.bb";

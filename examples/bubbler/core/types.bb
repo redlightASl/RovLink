@@ -1,3 +1,5 @@
+package api.types;
+
 enum RovDeviceType[1] {
     NONE = 0x00,
     POWER_CAB = 0x01,

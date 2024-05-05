@@ -15,7 +15,7 @@ Warning: Bubbler is still in development and is not ready for production use.
 ```sh
 git clone https://github.com/xaxys/bubbler.git
 cd bubbler
-go build
+make
 ```
 
 ## Usage
@@ -27,22 +27,114 @@ bubbler [options] <input file>
 ### Options
 
 - `-t <target>`: Target language
-- `-o <output>`: Output file
+- `-o <output>`: Output Path
+- `-inner`: Generate Inner Class (Nested Struct)
+- `-single`: Generate Single File (Combine all definitions into one file, instead of one generated file per source file)
+- `-minimal`: Generate Minimal Code (Usually without default getter/setter methods)
+- `-decnum`: Force Generate Decimal Format for Constant Value (Translate `0xFF` to `255`, `0b1111` to `15`, etc.)
+- `-signext`: Sign Extension Method used for Integer Field (Options: `shift`, `arith`)
+
+### Examples
+
+```sh
+bubbler -t c -minimal -o output/ example.bb
+bubbler -t c -single -o gen.hpp example.bb
+bubbler -t py -decnum -signext=arith -o output example.bb
+```
 
 ### Target Languages
 
 Run `bubbler` to see the list of supported target languages.
 
-### Examples
-
-```sh
-bubbler -t c -o gen.c example.bb
-bubbler -t dump example.bb
+```text
+Targets:
+  c
+  python [py]
 ```
+
+When selecting the target language, you can use the aliases inside `[]`. For example, `python` can be abbreviated as `py`.
+
+- `dump`: Output the parse tree (intermediate representation) of the `.bb` file.
+
+- `c`: C language, output one `.bb.h` file and one `.bb.c` file for each `.bb` file.
+  - With `-single`: Output one file that includes all definitions for all `.bb` files. The output file name (including the extension) is determined by the `-o` option.
+  - With `-minimal`: No generation of getter/setter methods for fields.
+
+- `python`: Python language, output one `_bb.py` file for each `.bb` file.
+  - With `-single`: Output one file that includes all definitions for all `.bb` files. The output file name (including the extension) is determined by the `-o` option.
 
 ## Protocol Syntax
 
 Bubbler uses a concise syntax to define data structures and enumeration types.
+
+See examples in the [example](example/) directory.
+
+### Package Statements
+
+Use the `package` keyword to define the package name. For example:
+
+```protobuf
+package com.example.rovlink;
+```
+
+The package name is used to generate the output file name. For example, if the package name is `com.example.rovlink`, the output file name is `rovlink.xxx` and is placed in the `${Output Path}/com/example/` directory.
+
+Only one package statement is allowed in a `.bb` file, and it can not be duplicated globally.
+
+### Option Statements
+
+Use the `option` keyword to define options. For example:
+
+```protobuf
+option omit_empty = true;
+option go_package = "example.com/rovlink";
+option cpp_namespace = "com::example::rovlink";
+```
+
+The option statement cannot be duplicated in a `.bb` file.
+
+Warning will be reported if a option is unknown.
+
+#### Supported Options
+
+##### `omit_empty`
+
+If `omit_empty` is set to `true`, the generated code will not generate files without typedefs.
+
+```protobuf
+package all;
+
+option omit_empty = true;
+
+import "rovlink.bb";
+import "control.bb";
+import "excomponent.bb";
+import "excontrol.bb";
+import "exdata.bb";
+import "host.bb";
+import "mode.bb";
+import "sensor.bb";
+```
+
+In this example, the `omit_empty` option is set to `true`, and this `.bb` file will not generate as `all.xxx` file.
+
+You can use this option to generate multiple `.bb` files at once, without writing a external script to do multiple `bubbler` calls.
+
+##### `go_package`
+
+If `go_package` is set, the generated code will use the specified package name in the generated Go code.
+
+##### `cpp_namespace`
+
+If `cpp_namespace` is set, the generated code will use the specified namespace in the generated C++ code.
+
+##### `csharp_namespace`
+
+If `csharp_namespace` is set, the generated code will use the specified namespace in the generated C# code.
+
+##### `java_package`
+
+If `java_package` is set, the generated code will use the specified package name in the generated Java code.
 
 ### Import Statements
 
@@ -76,7 +168,7 @@ The number in the square brackets after the enumeration type name indicates the 
 
 Use the `struct` keyword to define data structures. The definition of a data structure includes the structure name and a series of fields. For example:
 
-```bubbler
+```c
 struct Frame[20] {
     FrameType opcode;
     struct some_embed[1] {
@@ -91,6 +183,8 @@ struct Frame[20] {
 
 In this example, `Frame` is a data structure with three fields: `opcode`, `some_embed`, and `payload`. `opcode` is of type `FrameType`, `some_embed` is an anonymous embedded data structure, and `payload` is of type `uint8`.
 
+Please note that Bubbler does not have the concept of scope (to accommodate the C language), so the names `Frame` and `some_embed` as data structure names are not allowed to be duplicated globally, even if `some_embed` is an anonymous embedded data structure.
+
 ### Field Types
 
 The Bubbler protocol supports four types of fields: regular fields, anonymous embedded fields, constant fields, and empty fields.
@@ -104,7 +198,7 @@ The Bubbler protocol supports four types of fields: regular fields, anonymous em
 
 Regular fields consist of a type name, field name, and field width. For example:
 
-```bubbler
+```c
 struct Frame {
     RovlinkFrameType opcode;
 };
@@ -130,7 +224,7 @@ However, for fields of `struct` type, the field width must be equal to the width
 
 Anonymous embedded fields are nameless data structures that can contain multiple subfields. For example:
 
-```bubbler
+```c
 struct Frame {
     int64 myInt48[6];
     struct some_embed[1] {
@@ -184,7 +278,7 @@ struct Frame {
 
 Constant fields are fields with a fixed value, its value is determined at the time of definition and cannot be modified. For example:
 
-```bubbler
+```c
 struct Frame {
     uint8 FRAME_HEADER = 0xAA;
 };
@@ -198,7 +292,7 @@ The value of the constant field will be ignored during encoding and checked duri
 
 Empty fields are fields without a name and type, they only have a width. Empty fields are often used for padding or aligning data structures. For example:
 
-```bubbler
+```c
 struct Frame {
     void [#2];
 };
@@ -210,7 +304,7 @@ In this example, `void [#2]` is an empty field that occupies 2 bits of space.
 
 Field options are used to specify additional attributes of a field. For example, you can use the `order` option to specify the byte order of an array:
 
-```bubbler
+```c
 struct AnotherTest {
     int8<2> arr [order = "big"];
 }
@@ -222,7 +316,7 @@ In this example, the byte order of the `arr` field is set to big-endian.
 
 You can define custom getter and setter methods for a field to perform specific operations when reading or writing field values. For example:
 
-```bubbler
+```c
 struct SensorTemperatureData {
     uint16 temperature[2] {
         get(float64): value / 10 - 40;
