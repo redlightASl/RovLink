@@ -36,6 +36,8 @@ class Phylayer(object):
     def phy_send(self, dbg_print=False):
         if self._protocol == "Serial":
             self._dev.transmit(self._rovlink_frame, dbg_print=dbg_print)
+        elif self._protocol == "Ethernet":
+            self._dev.transmit(self._rovlink_frame, dbg_print=dbg_print)
 
     def phy_read(self):
         # TODO
