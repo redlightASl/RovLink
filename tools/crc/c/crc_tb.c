@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <time.h>
 
+#define ENABLE_BENCHMARK
+#define BENCHMARK_ROUNDS 1000 * 1000
 
 struct crc_cfg
 {
@@ -19,6 +22,8 @@ uint8_t TEST_DATA[8] = { 0 };
 
 uint32_t crc32_check(const uint8_t* buffer, uint32_t len, uint32_t init_value);
 uint32_t crc_generic(crc_cfg_t* crc_cfg, const uint8_t* cac, uint32_t size);
+
+void benchmark(void);
 
 static uint32_t invert_u(const uint8_t bit_width, const uint32_t data)
 {
@@ -65,6 +70,10 @@ int main(char* argv[], char* envp[])
         return 1;
     }
     printf("Testbench PASS!\n");
+
+#ifdef ENABLE_BENCHMARK
+    benchmark();
+#endif
     return 0;
 }
 
@@ -116,4 +125,40 @@ uint32_t crc_generic(crc_cfg_t* crc_cfg, const uint8_t* cac, uint32_t size)
         crc_res = invert_u(crc_cfg->bit_width, crc_res);
     }
     return crc_res ^ crc_cfg->xor;
+}
+
+void benchmark(void)
+{
+    double time_elapse = 0.0f;
+    clock_t start, end;
+    crc_cfg_t cfg = {
+        .bit_width = 32,
+        .poly = 0x04C11DB7,
+        .xor = 0xFFFFFFFF,
+        .init_value = 0xFFFFFFFF,
+        .is_refin = true,
+        .is_refout = true
+    };
+
+    printf("Start Benchmark for CRC32 in %d rounds!\n", BENCHMARK_ROUNDS);
+
+    start = clock();
+    for (int i = 0; i < BENCHMARK_ROUNDS; i++)
+    {
+        crc32_check(TEST_DATA, sizeof(TEST_DATA), 0xFFFFFFFF);
+    }
+    end = clock();
+    time_elapse = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("function `crc32_check` used: %f seconds\n", time_elapse);
+    printf("Average Time Elapse: %f seconds\n", time_elapse / BENCHMARK_ROUNDS);
+
+    start = clock();
+    for (int i = 0; i < BENCHMARK_ROUNDS; i++)
+    {
+        crc_generic(&cfg, TEST_DATA, sizeof(TEST_DATA));
+    }
+    end = clock();
+    time_elapse = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("function `crc_generic` used: %f seconds\n", time_elapse);
+    printf("Average Time Elapse: %f seconds\n", time_elapse / BENCHMARK_ROUNDS);
 }

@@ -1,0 +1,79 @@
+//IDVS "funct" defination
+// {
+//     "reg": [
+//         { "name": "S", "bits": 1, "attr": "Subseq"},
+//         { "name": "V", "bits": 1, "attr": "Valid"},
+//         { "name": "D", "bits": 2, "attr": "Reserved"},
+//         { "name": "I", "bits": 4, "attr": "Identify"}
+//     ],
+//     "config": {
+//         "hspace": 370,
+//         "vspace": 70
+//     }
+// }
+
+// Compressed Frame Type-A defination
+// {
+//     "reg": [
+//         { "name": "d2", "bits": 8, "attr": "data 2"},
+//         { "name": "d1", "bits": 8, "attr": "data 1"},
+//         { "name": "d0", "bits": 8, "attr": "data 0"},
+//         { "name": "funct", "bits": 8, "attr": "IDVS funct code"}
+//     ],
+//     "config": {
+//         "hspace": 600,
+//         "vspace": 80
+//     }
+// }
+
+// Compressed Frame Type-B defination
+// {
+//     "reg": [
+//         { "name": "d", "bits": 24, "attr": "payload X"},
+//         { "name": "funct", "bits": 8, "attr": "IDVS funct code"}
+//     ],
+//     "config": {
+//         "hspace": 600,
+//         "vspace": 80
+//     }
+// }
+
+// Inn Frame defination
+// {
+//     "reg": [
+//         { "name": "d5", "bits": 8, "attr": "payload 5"},
+//         { "name": "d4", "bits": 8, "attr": "payload 4"},
+//         { "name": "d3", "bits": 8, "attr": "payload 3"},
+//         { "name": "d2", "bits": 8, "attr": "payload 2"},
+//         { "name": "d1", "bits": 8, "attr": "payload 1"},
+//         { "name": "d0", "bits": 8, "attr": "payload 0"},
+//         { "name": "funct", "bits": 8, "attr": "IDVS funct code"},
+//         { "name": "opcode", "bits": 8, "attr": "Operate Code"}
+//     ],
+//     "config": {
+//         "lanes": 2,
+//         "hspace": 600,
+//         "vspace": 80
+//     }
+// }
+
+// Std Frame defination
+{
+    "reg": [
+        { "name": "crc", "bits": 8, "attr": "crc check", "type": 1},
+        { "name": "d5", "bits": 8, "attr": "payload 5", "type": 4},
+        { "name": "d4", "bits": 8, "attr": "payload 4", "type": 4},
+        { "name": "d3", "bits": 8, "attr": "payload 3", "type": 4},
+        { "name": "d2", "bits": 8, "attr": "payload 2", "type": 4},
+        { "name": "d1", "bits": 8, "attr": "payload 1", "type": 4},
+        { "name": "d0", "bits": 8, "attr": "payload 0", "type": 4},
+        { "name": "funct", "bits": 8, "attr": "IDVS funct code"},
+        { "name": "opcode", "bits": 8, "attr": "Operate Code", "type": 2},
+        { "name": "head", "bits": 8, "attr": "const 0xFD", "type": 1}
+    ],
+    "config": {
+        "lanes": 2,
+        "hspace": 690,
+        "vspace": 80
+    }
+}
