@@ -5,7 +5,7 @@ struct RovExcontrolClampData[6] {
     int16 wrist[2] [order = "big"] {
         get percent(float64): value / 3000.0 * 100.0;
         get percent_int(int32): (int32)(value / 3000.0 * 100.0);
-        set percent(float64): value > -0.5 && value < 0.5 ? 0 : value;
+        set percent(float64): value > -0.5 && value < 0.5 ? (float64)0 : value;
     };
     void [2];
 }

@@ -22,7 +22,7 @@ struct RovSensorWaterTempDepthPressData[6] {
     };
     uint16 depth[2] [order = "big"] {
         get trustable(bool): (value / 100.0) < 1.0 ? false : true;
-        get confidence(int32): (value / 100.0) < 1.0 ? 0 : 100;
+        get confidence(int32): (value / 100.0) < 1.0 ? (int32)0 : (int32)100;
         get depth_display(float64): value / 100.0;
         set depth_display(float64): (uint16)(value * 100.0);
     };

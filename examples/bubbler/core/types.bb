@@ -68,7 +68,7 @@ struct RovlinkFrame[8] {
 }
 
 struct RovlinkStdFrame[10] {
-    uint8 magic[1];
+    uint8 magic[1] = 0xFD;
     RovlinkFrame;
     uint8 crc[1];
 }
