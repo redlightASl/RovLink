@@ -1,78 +1,78 @@
-package api.control;
+package api.monitor;
 
-struct RovControlPropellerAData[6] {
+struct RovMonitorPropellerAData[6] {
     uint16 p1[2] [order = "big"];
     uint16 p2[2] [order = "big"];
     uint16 p3[2] [order = "big"];
 }
 
-struct RovControlPropellerBData[6] {
+struct RovMonitorPropellerBData[6] {
     uint16 p1[2] [order = "big"];
     uint16 p2[2] [order = "big"];
     uint16 p3[2] [order = "big"];
 }
 
-struct RovControlPropellerCData[6] {
+struct RovMonitorPropellerCData[6] {
     uint16 p1[2] [order = "big"];
     uint16 p2[2] [order = "big"];
     uint16 p3[2] [order = "big"];
 }
 
-struct RovControlPropellerDData[6] {
+struct RovMonitorPropellerDData[6] {
     uint16 p1[2] [order = "big"];
     uint16 p2[2] [order = "big"];
     uint16 p3[2] [order = "big"];
 }
 
-struct RovControlLightAData[6] {
+struct RovMonitorLightAData[6] {
     uint16 l1[2] [order = "big"];
     uint16 l2[2] [order = "big"];
     uint16 l3[2] [order = "big"];
 }
 
-struct RovControlLightBData[6] {
+struct RovMonitorLightBData[6] {
     uint16 l1[2] [order = "big"];
     uint16 l2[2] [order = "big"];
     uint16 l3[2] [order = "big"];
 }
 
-struct RovControlPtzData[6] {
+struct RovMonitorPtzData[6] {
     uint16 roll[2] [order = "big"];
     uint16 tilt[2] [order = "big"];
     uint16 pan[2] [order = "big"];
 }
 
-struct RovControlServoAData[6] {
+struct RovMonitorServoAData[6] {
     uint16 s1[2] [order = "big"];
     uint16 s2[2] [order = "big"];
     uint16 s3[2] [order = "big"];
 }
 
-struct RovControlServoBData[6] {
+struct RovMonitorServoBData[6] {
     uint16 s1[2] [order = "big"];
     uint16 s2[2] [order = "big"];
     uint16 s3[2] [order = "big"];
 }
 
-struct RovControlServoCData[6] {
+struct RovMonitorServoCData[6] {
     uint16 s1[2] [order = "big"];
     uint16 s2[2] [order = "big"];
     uint16 s3[2] [order = "big"];
 }
 
-struct RovControlPostureData[6] {
+struct RovMonitorPostureData[6] {
     uint16 forward[2] [order = "big"];
     uint16 rotate[2] [order = "big"];
     uint16 vertical[2] [order = "big"];
 }
 
-struct RovControlMovementData[6] {
+struct RovMonitorMovementData[6] {
     uint16 speed_x[2] [order = "big"];
     uint16 speed_y[2] [order = "big"];
     uint16 speed_z[2] [order = "big"];
 }
 
-struct RovControlHeadingData[6] {
+struct RovMonitorHeadingData[6] {
     uint16 pitch[2] [order = "big"];
     uint16 roll[2] [order = "big"];
     uint16 yaw[2] [order = "big"];

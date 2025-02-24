@@ -1,9 +1,9 @@
 package api.control;
 
 struct RovControlPropellerAData[6] {
-    uint16 a1[2] [order = "big"];
-    uint16 a2[2] [order = "big"];
-    uint16 a3[2] [order = "big"];
+    uint16 p1[2] [order = "big"];
+    uint16 p2[2] [order = "big"];
+    uint16 p3[2] [order = "big"];
 }
 
 struct RovControlLightAData[6] {
@@ -13,19 +13,19 @@ struct RovControlLightAData[6] {
 }
 
 struct RovControlPtzData[6] {
-    uint16 th1[2] [order = "big"];
-    uint16 th2[2] [order = "big"];
-    uint16 th3[2] [order = "big"];
+    uint16 roll[2] [order = "big"];
+    uint16 tilt[2] [order = "big"];
+    uint16 pan[2] [order = "big"];
 }
 
 struct RovControlServoAData[6] {
-    uint16 pwm1[2] [order = "big"];
-    uint16 pwm2[2] [order = "big"];
-    uint16 pwm3[2] [order = "big"];
+    uint16 s1[2] [order = "big"];
+    uint16 s2[2] [order = "big"];
+    uint16 s3[2] [order = "big"];
 }
 
 struct RovControlPostureData[6] {
-    uint16 straight[2] [order = "big"];
+    uint16 forward[2] [order = "big"];
     uint16 rotate[2] [order = "big"];
     uint16 vertical[2] [order = "big"];
 }

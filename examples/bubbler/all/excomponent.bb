@@ -1,19 +1,19 @@
-package api.rovlink.excomponent;
+package api.excomponent;
 
-struct RovExcomponentRelayData[6] {
-    bool lazer[1];
-    bool clamp[1];
-    bool arm[1];
-    bool sonar[1];
-    bool propeller[1];
-    bool ptz[1];
+struct RovExcompPeripheralData[6] {
+    bool lazer_en[1];
+    bool grip_en[1];
+    bool manip_en[1];
+    bool sonar_en[1];
+    bool propeller_en[1];
+    bool ptz_en[1];
 }
 
-struct RovExcomponentRescueData[6] {
-    uint8 stretch[1];
-    uint8 left_servo[1];
-    uint8 right_servo[1];
-    uint8 clamp[1];
-    uint8 turn_servo[1];
-    uint8 solution[1];
+struct RovExcompWorkloadData[6] {
+    bool worker[1];
+    bool servo_a[1];
+    bool servo_b[1];
+    bool servo_c[1];
+    bool servo_d[1];
+    bool mode[1];
 }

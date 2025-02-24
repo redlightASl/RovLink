@@ -1,13 +1,13 @@
 package api.excontrol;
 
-struct RovExcontrolClampData[6] {
-    int16 clamp[2] [order = "big"];
+struct RovExcontrolManipData[6] {
+    int16 grip[2] [order = "big"];
     int16 wrist[2] [order = "big"] {
         get percent(float64): value / 3000.0 * 100.0;
         get percent_int(int32): (int32)(value / 3000.0 * 100.0);
         set percent(float64): value > -0.5 && value < 0.5 ? (float64)0 : value;
     };
-    void [2];
+    int16 hold[2] [order = "big"];
 }
 
 struct RovExcontrolManipulatorAData[6] {

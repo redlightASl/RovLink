@@ -1,4 +1,4 @@
-package api.rovlink.host;
+package api.host;
 
 enum RovCamaraType[1] {
     NO_CAM = 0;
