@@ -77,4 +77,4 @@ RovLink 还预留了三个指令子集 C、D、E 供用户定义自己的 RovLin
 
 ## 历史版本
 
-本指令集迭代自旧版控制指令，旧版内容可参考 `Legacy` 目录下的  `ControlFormat_Legacy.xlsx` 和 `DataFormat_Legacy.xlsx`
+本指令集迭代自旧版控制指令，旧版内容可参考 `Legacy` 目录下的 `ControlFormat_Legacy.xlsx` 和 `DataFormat_Legacy.xlsx`

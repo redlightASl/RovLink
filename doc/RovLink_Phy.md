@@ -1,5 +1,9 @@
 # RovLink 物理层标准
 
+> [!NOTE]
+>
+> 本文档介绍了RovLink的物理层实现标准、传输方式。
+
 在当前标准下，RovLink可以使用如下通用板级总线传输：
 
 * 标准TTL（3.3V/5V）串口
@@ -65,7 +69,7 @@ RovLink允许基于硬件（FPGA或CPLD）的协议栈实现
 
 ### 以太网
 
-* 不允许直接使用RMII/RGMII发送RovLink数据
+* **不允许**直接使用RMII/RGMII发送RovLink数据
 * 以太网传输时，RovLink被视为一个应用层协议，应当使用基于TCP/UDP协议的Socket传输，也允许基于WebSocket的传输方式，但传输的RovLink帧始终为Standard Frame
 * 所有RovLink设备应当置于同一网段内
 
