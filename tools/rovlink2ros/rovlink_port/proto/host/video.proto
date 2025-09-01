@@ -1,0 +1,40 @@
+﻿syntax = "proto3";
+
+package coralreef.api.host;
+option csharp_namespace = "CoralReef.Api.Host";
+
+import "google/protobuf/any.proto";
+import "device.proto";
+
+enum PixFormat {
+    RGB24 = 0;
+    BGR24 = 1;
+    BGRA32 = 2;
+    BGR032 = 3;
+}
+
+message VideoFrame {
+    bool signal = 1;
+    int32 width = 2;
+    int32 height = 3;
+    int32 stride = 4;
+    int32 data_length = 5;
+    PixFormat pix_format = 6;
+    bytes scan0 = 7;
+
+    bool compressed = 8;
+    int32 compressed_data_length = 9;
+}
+
+enum VideoControlType {
+    NOCONTROL = 0;
+    UNSUBSCRIBE = 1;
+    SUBSCRIBE_MJPEG = 2;
+    SUBSCRIBE_H264 = 3;
+}
+
+message VideoControlFrame {
+    coralreef.api.DeviceType device = 1;
+    VideoControlType type = 2;
+    google.protobuf.Any data = 3;
+}

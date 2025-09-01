@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package coralreef.api.rovlink;
+option csharp_namespace = "CoralReef.Api.Rovlink";
+
+message RovSensorCabTempHumidPressData {
+    uint32 temperature = 1;
+    uint32 humidity = 2;
+    uint32 pressure = 3;
+}
+
+message RovSensorWaterTempDepthPressData {
+    uint32 temperature = 1;
+    uint32 depth = 2;
+    uint32 pressure = 3;
+}
+
+message RovSensorAccelerationData {
+    uint32 x = 1;
+    uint32 y = 2;
+    uint32 z = 3;
+}
+
+message RovSensorAngularVelocityData {
+    uint32 x = 1;
+    uint32 y = 2;
+    uint32 z = 3;
+}
+
+message RovSensorEulerAngleData {
+    int32 pitch = 1;
+    int32 roll = 2;
+    uint32 yaw = 3;
+}
+
+message RovSensorMagneticFieldData {
+    uint32 x = 1;
+    uint32 y = 2;
+    uint32 z = 3;
+}
+
+message RovSensorHeightSonarData {
+    uint32 height = 1;
+    uint32 confidence = 2;
+}
+
+message RovSensorDistanceSonarData {
+    uint32 distance = 1;
+    uint32 confidence = 2;
+}
+

@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package coralreef.api.rovlink;
+option csharp_namespace = "CoralReef.Api.Rovlink";
+
+message RovControlPropellerAData {
+    uint32 a1 = 1;
+    uint32 a2 = 2;
+    uint32 a3 = 3;
+}
+
+message RovControlPropellerBData {
+    uint32 b1 = 1;
+    uint32 b2 = 2;
+    uint32 b3 = 3;
+}
+
+message RovControlPropellerCData {
+    uint32 c1 = 1;
+    uint32 c2 = 2;
+    uint32 c3 = 3;
+}
+
+message RovControlPropellerDData {
+    uint32 d1 = 1;
+    uint32 d2 = 2;
+    uint32 d3 = 3;
+}
+
+message RovControlLightAData {
+    uint32 l1 = 1;
+    uint32 l2 = 2;
+    uint32 l3 = 3;
+}
+
+message RovControlLightBData {
+    uint32 l4 = 1;
+    uint32 l5 = 2;
+    uint32 l6 = 3;
+}
+
+message RovControlPtzData {
+    uint32 th1 = 1;
+    uint32 th2 = 2;
+    uint32 th3 = 3;
+}
+
+message RovControlServoAData {
+    uint32 pwm1 = 1;
+    uint32 pwm2 = 2;
+    uint32 pwm3 = 3;
+}
+
+message RovControlServoBData {
+    uint32 pwm4 = 1;
+    uint32 pwm5 = 2;
+    uint32 pwm6 = 3;
+}
+
+message RovControlServoCData {
+    uint32 pwm7 = 1;
+    uint32 pwm8 = 2;
+    uint32 pwm9 = 3;
+}
+
+message RovControlPostureData {
+    uint32 forward_backward = 1;
+    uint32 left_right = 2;
+    uint32 up_down = 3;
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package coralreef.api;
+option csharp_namespace = "CoralReef.Api";
+
+enum DeviceType {
+    NONE = 0x00;
+
+    HOST = 0x11;
+    EXTERNAL = 0x12;
+
+    ROBOT = 0x21;
+    SERIAL = 0x22;
+    GAMEPAD = 0x23;
+    CHASSIS = 0x24;
+
+    FRONT_CAMARA = 0x31;
+    BACK_CAMARA = 0x32;
+    CHASSIS_CAMARA = 0x33;
+
+    ANY = 0xFF;
+}

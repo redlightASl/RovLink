@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package coralreef.api.rovlink;
+option csharp_namespace = "CoralReef.Api.Rovlink";
+
+message RovExcomponentRelayData {
+    bool lazer = 1;
+    bool clamp = 2;
+    bool arm = 3;
+    bool sonar = 4;
+    bool propeller = 5;
+    bool ptz = 6;
+}
+
+message RovExcomponentRescueData {
+    uint32 stretch = 1;
+    uint32 left_servo = 2;
+    uint32 right_servo = 3;
+    uint32 clamp = 4;
+    uint32 turn_servo = 5;
+    uint32 solution = 6;
+}

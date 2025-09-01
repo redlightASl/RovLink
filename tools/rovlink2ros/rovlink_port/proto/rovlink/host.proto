@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package coralreef.api.rovlink;
+option csharp_namespace = "CoralReef.Api.Rovlink";
+
+enum RovCamaraType {
+    NO_CAM = 0;
+    FRONT_CAM = 1;
+    BACK_CAM = 2;
+}
+
+message RovHostCamaraData {
+    repeated RovCamaraType camara = 1;
+}

@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package coralreef.api.chassis;
+option csharp_namespace = "CoralReef.Api.Chassis";
+
+enum ChassisDeviceType {
+    CHASSIS = 0;
+    ARM = 1;
+}
+
+enum ChassisControlType {
+    STOP = 0;
+    TIGHTEN = 1;
+    LOOSEN = 2;
+}
+
+message ChassisControlFrame {
+    uint32 address = 1;
+    ChassisDeviceType device = 2;
+    bool light = 3;
+    ChassisControlType winch = 4;
+    bool disable_camara = 12;
+    bool disable_plc = 13;
+    uint32 chassis_x = 5;
+    uint32 chassis_y = 6;
+    int32 arm_joint_1 = 7;
+    int32 arm_joint_2 = 8;
+    int32 arm_joint_3 = 9;
+    int32 arm_rotate = 10;
+    ChassisControlType arm_clamp = 11;
+}
+
+enum ChassisMotorStatus {
+    CHASSIS_MOTOR_NORMAL = 0;
+    ENCODER_INTERPOLATION_ERROR = 1;
+    HALL_SENSOR_ERROR = 2;
+    MOTOR_STALL_ERROR = 3;
+    BUS_VOLTAGE_TOO_HIGH_ERROR = 4;
+    BUS_VOLTAGE_TOO_LOW_ERROR = 5;
+    U_PHASE_CURRENT_TOO_HIGH_ERROR = 6;
+    V_PHASE_CURRENT_TOO_HIGH_ERROR = 7;
+    W_PHASE_CURRENT_TOO_HIGH_ERROR = 8;
+    MOTOR_CURRENT_TOO_HIGH_ERROR = 9;
+    MOTOR_THREE_PHASE_CURRENT_TOO_HIGH_ERROR = 10;
+    POWER_PART_TEMP_RAW_TOO_HIGH_ERROR = 11;
+    MOTOR_SPEED_TOO_HIGH_ERROR = 12;
+    POSITION_ERROR_TOO_LARGE_ERROR = 13;
+    SPEED_ERROR_TOO_LARGE_ERROR = 14;
+    MOTOR_ENCODER_NOT_CONFIGURED_ERROR = 15;
+    LOAD_ENCODER_STATUS_ERROR = 16;
+    LOAD_ENCODER_MULTI_TURN_ERROR = 17;
+    BATTERY_WARNING_ERROR = 18;
+    BATTERY_VOLTAGE_TOO_LOW_ERROR = 19;
+    POWER_OFF_DETECTED_ERROR = 20;
+    MULTI_TURN_POSITION_ERROR = 21;
+    ETHERCAT_INITIALIZATION_ERROR = 22;
+    ETHERCAT_STATE_MACHINE_EXIT_OP_STATE_ERROR = 23;
+}
+
+enum ChassisArmStatus {
+    CHASSIS_ARM_NORMAL = 0;
+    LOW_VOLTAGE_PROTECTION = 1;
+    OVER_HEAT_PROTECTION = 8;
+}
+
+message ChassisMotorData {
+    int32 rpm = 1;
+    int32 current = 2;
+    uint32 voltage = 3;
+    int32 torque = 4;
+    bool brake = 5;
+    ChassisMotorStatus status = 6;
+}
+
+message ChassisArmData {
+    uint32 temperature = 1;
+    bool brake = 2;
+    uint32 status = 3;
+}
+
+message ChassisSensorFrame {
+    uint32 address = 1;
+    ChassisMotorData left_motor = 2;
+    ChassisMotorData right_motor = 3;
+    ChassisArmData arm_joint_1 = 4;
+    ChassisArmData arm_joint_2 = 5;
+    ChassisArmData arm_joint_3 = 6;
+    ChassisArmData arm_rotate = 7;
+    ChassisArmData arm_clamp = 8;
+    bool light = 9;
+}

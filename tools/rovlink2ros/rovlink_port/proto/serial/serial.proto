@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package coralreef.api.serial;
+option csharp_namespace = "CoralReef.Api.Serial";
+
+enum SerialTenaryState {
+    STOP = 0;
+    HOLD = 1;
+    RELEASE = 2;
+}
+
+message SerialFrame {
+    int32 forward_backward_num = 1;
+    int32 left_right_num = 2;
+    int32 up_down_num = 3;
+    int32 front_light_num = 4;
+    int32 back_light_num = 5;
+    int32 ptz_num = 6;
+    int32 wrist_num = 7;
+    int32 roll_num = 8;
+    
+    bool laser_toggle = 9;
+    bool clamp_toggle = 10;
+    bool arm_toggle = 11;
+    bool sonar_toggle = 12;
+    bool camara_toggle = 13;
+    bool heading_toggle = 14;
+    bool depth_toggle = 15;
+    bool rescue_toggle = 16;
+    bool side_push_toggle = 17;
+    bool posture_toggle = 18;
+    bool module_toggle = 19;
+    bool auxiliary_toggle = 20;
+    bool track_toggle = 21;
+    bool tilt_roll_toggle = 22;
+
+    SerialTenaryState clamp_state = 23;
+    SerialTenaryState camara_zoom_state = 24;
+    SerialTenaryState machine_rotate_state = 25;
+    SerialTenaryState piercing_post_state = 26;
+    SerialTenaryState trigger_state = 27;
+    SerialTenaryState cable_state = 28;
+    SerialTenaryState arm_state = 29;
+}

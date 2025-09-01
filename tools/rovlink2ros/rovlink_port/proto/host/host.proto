@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package coralreef.api.host;
+option csharp_namespace = "CoralReef.Api.Host";
+
+import "google/protobuf/any.proto";
+import "device.proto";
+
+enum LogLevel {
+    NONE = 0;
+    TRACE = 1;
+    DEBUG = 2;
+    INFO = 3;
+    WARNING = 4;
+    ERROR = 5;
+    FATAL = 6;
+}
+
+message Log {
+    string member = 1;
+    string file = 2;
+    int32 line = 3;
+    LogLevel level = 4;
+    string message = 5;
+    string detail = 6;
+}
+
+enum DeviceState {
+    OFFLINE = 0; // 下线
+    ONLINE = 1; // 在主控箱上线
+    OFFLINE_EXTERNAL = 2; // 在远程下线
+    ONLINE_EXTERNAL = 3; // 在远程上线
+}
+
+message DeviceStateFrame {
+    coralreef.api.DeviceType device = 1;
+    DeviceState state = 2;
+    google.protobuf.Any data = 3;
+}

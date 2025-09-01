@@ -1,0 +1,32 @@
+﻿syntax = "proto3";
+
+package coralreef.api;
+option csharp_namespace = "CoralReef.Api";
+
+import "device.proto";
+import "host/host.proto";
+import "host/video.proto";
+import "serial/serial.proto";
+import "rovlink/rovlink.proto";
+import "chassis/chassis.proto";
+
+message Package {
+    uint32 id = 1;
+    DeviceType source = 2;
+    DeviceType target = 3;
+
+    oneof data {
+        string raw_string = 11;
+        bytes raw_bytes = 12;
+        
+        coralreef.api.host.Log log = 21;
+        coralreef.api.host.DeviceStateFrame device_state_frame = 22;
+        coralreef.api.host.VideoFrame video_frame = 23;
+        coralreef.api.host.VideoControlFrame video_control_frame = 24;
+
+        coralreef.api.serial.SerialFrame serial_frame = 31;
+        coralreef.api.rovlink.RovlinkFrame rovlink_frame = 32;
+        coralreef.api.chassis.ChassisControlFrame chassis_control_frame = 33;
+        coralreef.api.chassis.ChassisSensorFrame chassis_sensor_frame = 34;
+    }
+}

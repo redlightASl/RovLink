@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package coralreef.api.rovlink;
+option csharp_namespace = "CoralReef.Api.Rovlink";
+
+message RovModeModeAData {
+    bool side_push = 1;
+    bool tilt = 2;
+    bool roll = 3;
+    bool auxiliary = 4;
+    bool rescue = 5;
+    bool module = 6;
+}
+
+message RovModeModeBData {
+    bool keep_heading = 1;
+    bool keep_depth = 2;
+    bool auto_stabilize = 3;
+    bool auto_schedule = 4;
+    bool auto_execute = 5;
+    bool auto_avoiding_obstacles = 6; 
+}

@@ -1,0 +1,6 @@
+<launch>
+	<!-- 启动第一个Python节点 -->
+  	<node pkg="ros_topic_publishing" type="socket_msg_pub.py" name="msg_pub" output="screen" />
+ 	 <!-- 启动第二个Python节点 -->
+ 	 <!-- <node pkg="ros_topic_publishing" type="img_pub.py" name="img_pub_node" output="screen" />-->
+</launch>

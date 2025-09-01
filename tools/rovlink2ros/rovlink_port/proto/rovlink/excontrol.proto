@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package coralreef.api.rovlink;
+option csharp_namespace = "CoralReef.Api.Rovlink";
+
+message RovExcontrolClampData {
+    int32 clamp = 1;
+    int32 wrist = 2;
+}
+
+message RovExcontrolArmAData {
+    uint32 a1 = 1;
+    uint32 a2 = 2;
+    uint32 a3 = 3;
+}
+
+message RovExcontrolArmBData {
+    uint32 b1 = 1;
+    uint32 b2 = 2;
+    uint32 b3 = 3;
+}
+
+message RovExcontrolArmCData {
+    uint32 c1 = 1;
+    uint32 c2 = 2;
+    uint32 c3 = 3;
+}

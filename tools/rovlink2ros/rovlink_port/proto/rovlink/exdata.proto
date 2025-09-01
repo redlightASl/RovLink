@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package coralreef.api.rovlink;
+option csharp_namespace = "CoralReef.Api.Rovlink";
+
+message RovExdataLeakageData {
+    uint64 leakage = 1;
+}
+
+enum RovExdataKeepAliveStatus {
+    HEALTHY = 0;
+    WATCHDOG_TIMEOUT = 1;
+}
+
+message RovExdataKeepAliveData {
+    uint32 timestamp = 1;
+    RovExdataKeepAliveStatus status = 2;
+}
